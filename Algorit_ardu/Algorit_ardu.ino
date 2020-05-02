@@ -61,7 +61,7 @@ void loop() {
   if (L2_izq > maxi[3]) {
     maxi[3]=L2_izq;
     }
-/*/-------------__________  Enviar Datos ____________-----------------------------
+//-------------__________  Enviar Datos ____________-----------------------------
  
  Serial.print("Min ");
  for (int i=0;i < 4; i++){ // Resetear minimos y maximos
@@ -75,11 +75,9 @@ for (int i=0;i < 4; i++){ // Resetear minimos y maximos
  Serial.print(',');
   }
 Serial.println("");
-Serial.println(orden); */
+Serial.println(orden); //
 
-Serial.print("lo ultimo que recibi fue: " );
-Serial.println(datar);
-delay(2000);
+delay(1000);
 UsartRx();
 }
 
@@ -87,24 +85,24 @@ UsartRx();
 void UsartRx() {
  if (Serial.available() > 0) {
  datar=(char)Serial.read();
- datnew==true;
+ datnew=true;
  }
-if(datnew==true) {
-  datnew=true;
+ if(datnew==true) {
+  datnew=false;
  if(orden==0){ // Se lee primer dato L1_der
-   L1_der = datar;
+   L1_der = (int)datar;
    orden=1;
   }
   else if(orden==1){
-   L2_der = datar;
+   L2_der = (int)datar;
    orden=2;
   }
    else if(orden==2){
-   L1_izq = datar;
+   L1_izq = (int)datar;
    orden=3;
   }
   else if(orden==3){
-   L2_izq = datar;
+   L2_izq = (int)datar;
    orden=0;
   }
 }

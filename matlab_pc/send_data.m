@@ -7,7 +7,9 @@ s=Ini_Serial();
 
 fscanf(s) %% lectura de datos 
 for i=1:5
-    fprintf(s,int2str(i));
+    fprintf(s,'1234');
+    fscanf(s)
+    fscanf(s)
     fscanf(s)
 end
 fclose(s);
