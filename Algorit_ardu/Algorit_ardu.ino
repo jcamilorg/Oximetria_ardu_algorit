@@ -22,15 +22,17 @@ int maxi[4];//Este vector guarda el valor maximo actual de todas las loguitudes 
 
 // Valores de amplitud AC y DC
 //AC
-int L1AC_der;
-int L2AC_der;
-int L1AC_der;
-int L2AC_der;
+int LAC[4];
+//LAC[0] L1_AC_der;
+//LAC[1] L2_AC_der;
+//LAC[2] L1_AC_izq;
+//LAC[3] L2_AC_izq;
 // DC
-int L1DC_der;
-int L2DC_der;
-int L1DC_izq;
-int L2DC_izq;
+int LDC[4];
+//LDC[0] L1_DC_der;
+//LDC[1] L2_DC_der;
+//LDC[2] L1_DC_izq;
+//LDC[3] L2_DC_izq;
 
 
 
@@ -46,7 +48,7 @@ void setup() {
   Timer1.attachInterrupt(Envio);
 //-----------------------------------------------------------
  for (int i=0;i < 4; i++){ // Resetear minimos y maximos
-  mini[i]=0;
+  mini[i]=1024;
   maxi[i]=0;
   }
 }
@@ -91,52 +93,47 @@ void UsartRx() {
 
 void Envio() {
   //calculo AmpAC
-  L1
-  
+  LAC[0]=maxi[0]-mini[0];  //AC valor longitud 1 parte derecha
+  LAC[1]=maxi[1]-mini[1];  //AC valor longitud 1 parte derecha
+  LAC[2]=maxi[2]-mini[2];  //AC valor longitud 1 parte izquierda
+  LAC[3]=maxi[3]-mini[3];  //AC valor longitud 2 parte izquierda
   //-------------__________  Enviar Datos ____________-----------------------------
-    Serial.print("Min ");
-    for (int i=0;i < 4; i++){ // Resetear minimos y maximos
-    Serial.print(mini[i]);
+    Serial.print("AC ");
+    for (int i=0;i < 4; i++){ 
+    Serial.print(LAC[i]);
     Serial.print(',');
     }
     Serial.println("");
-    Serial.print("Max ");
-    for (int i=0;i < 4; i++){ // Resetear minimos y maximos
-    Serial.print(maxi[i]);
-    Serial.print(',');
-    }
-    Serial.println("");
-    Serial.println(orden); //
-    Serial.println(atoi(&datar[0]));
+//Resetear para nuevo calculo
   }
   
 void cal_min_max(){
  // Encontrar Maximo y minimo L1 der.-----
-  if (L1_der < mini[0]) {
+  if (L1_der < mini[0] && L1_der != 0) {
     mini[0]=L1_der;
   }
-  if (L1_der > maxi[0]) {
+  if (L1_der > maxi[0]&& L1_der != 0) {
     maxi[0]=L1_der;
   }
 // Encontrar Maximo y minimo L2 der.-----
-  if (L2_der < mini[1]) {
+  if (L2_der < mini[1]&& L2_der != 0) {
     mini[1]=L2_der;
   }
-  if (L2_der > maxi[1]) {
+  if (L2_der > maxi[1]&& L2_der != 0) {
     maxi[1]=L2_der;
   }
 // Encontrar Maximo y minimo L1 izq.------
-  if (L1_izq < mini[2]) {
+  if (L1_izq < mini[2]&& L1_izq != 0) {
     mini[2]=L1_izq;
   }
-  if (L1_izq > maxi[2]) {
+  if (L1_izq > maxi[2]&& L1_izq != 0) {
     maxi[2]=L1_izq;
   }
 // Encontrar Maximo y minimo L2 izq.-------
-  if (L2_izq < mini[3]) {
+  if (L2_izq < mini[3]&& L2_izq != 0) {
     mini[3]=L2_izq;
   }
-  if (L2_izq > maxi[3]) {
+  if (L2_izq > maxi[3]&& L2_izq != 0) {
     maxi[3]=L2_izq;
     }
 //-------------------------------------
