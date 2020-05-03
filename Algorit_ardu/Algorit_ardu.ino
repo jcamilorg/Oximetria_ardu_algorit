@@ -45,8 +45,8 @@ bool datnew=false; // llego nuevo dato
  int pos=0;
  int iteracion;
 void setup() {
-  Serial.begin(115200); //iniciar comunicacion serial 
-  Timer1.initialize(1000000);
+  Serial.begin(2000000); //iniciar comunicacion serial 
+  Timer1.initialize(2000000);
   Timer1.attachInterrupt(Envio);
 //-----------------------------------------------------------
  for (int i=0;i < 4; i++){ // Resetear minimos y maximos
@@ -127,8 +127,8 @@ void Envio() {
   LAC[2]=maxi[2]-mini[2];  //AC valor longitud 1 parte izquierda
   LAC[3]=maxi[3]-mini[3];  //AC valor longitud 2 parte izquierda
   // Calculo de "R"
-  float AD_L1_der= (500/3);
-  float AD_L2_der= (1011/98);
+  float AD_L1_der= (LAC[0]/LDC[0]);
+  float AD_L2_der= (LAC[1]/LDC[1]);
   float R_der= (AD_L1_der/AD_L2_der);
   
   float AD_L1_izq = (LAC[2]/LDC[2]);
@@ -136,23 +136,32 @@ void Envio() {
   float R_izq  = (AD_L1_izq/AD_L2_izq);
   
   //-------------__________  Enviar Datos ____________-----------------------------
-  Serial.print(" AC DC ");
-  for (int i=0;i < 4; i++){ // Resetear minimos y maximos
+  Serial.print("AC DC ,");
+  for (int i=0;i < 4; i++){ 
   Serial.print(LAC[i]);
   Serial.print(',');
   Serial.print(LDC[i]);
   Serial.print(',');
   }
-    Serial.print(" R "); 
+    Serial.print(" R ,"); 
     Serial.print(R_der);
     Serial.print(',');
     Serial.println(R_izq);
   
  for (int i=0;i < 4; i++){ // Resetear AC y DC
- // LAC[i]=0;
- // LDC[i]=1;
+  LAC[i]=0;
+  LDC[i]=1;
+  mini[i]=1023;
+  maxi[i]=0;
+  L1_der=0;
+ L2_der=0;
+ DC1_der=0;
+ DC2_der=0;
+ L1_izq=0;
+ L2_izq=0;
+ DC1_izq=0;
+ DC2_izq=0;
   }
-
   }
   
 void cal_min_max(){
