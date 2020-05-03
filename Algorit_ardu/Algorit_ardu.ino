@@ -56,7 +56,6 @@ void setup() {
 }
 
 void loop() {
-cal_min_max();
 UsartRx();
 }
 
@@ -69,9 +68,7 @@ void UsartRx() {
  datar[pos]=dataexclude;
  pos++;
   }
- }
  
-
  if(pos==4) {
   pos=0;
  if(orden==0){ // Se lee primer dato L1_der
@@ -113,6 +110,8 @@ void UsartRx() {
  LDC[3]=(LDC[3] + DC2_izq); 
   }
 }
+cal_min_max();
+}
 }
 
 void Envio() {
@@ -141,12 +140,13 @@ void Envio() {
   Serial.print(LAC[i]);
   Serial.print(',');
   Serial.print(LDC[i]);
-  Serial.print(',');
+   Serial.print(',');
   }
-    Serial.print(" R ,"); 
+  Serial.println("");
+    /*Serial.print(" R ,"); 
     Serial.print(R_der);
     Serial.print(',');
-    Serial.println(R_izq);
+    Serial.println(R_izq);*/
   
  for (int i=0;i < 4; i++){ // Resetear AC y DC
   LAC[i]=0;
