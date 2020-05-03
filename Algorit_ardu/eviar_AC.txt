@@ -25,16 +25,17 @@ int maxi[4];//Este vector guarda el valor maximo actual de todas las loguitudes 
 // Valores de amplitud AC y DC
 //AC
 int LAC[4];
+//LAC[0] L1_AC_der;
 //LAC[1] L2_AC_der;
 //LAC[2] L1_AC_izq;
 //LAC[3] L2_AC_izq;
 // DC
-long LDC[4]={1,1,1,1};
-//LAC[0] L1_AC_der;
+int LDC[4];
 //LDC[0] L1_DC_der;
 //LDC[1] L2_DC_der;
 //LDC[2] L1_DC_izq;
 //LDC[3] L2_DC_izq;
+
 
 
 char datar[]={'0','0','0','0'}; //Dato instantaneo leido
@@ -43,7 +44,7 @@ bool datnew=false; // llego nuevo dato
 
 //logica para guardar datos
  int pos=0;
- int iteracion;
+ 
 void setup() {
   Serial.begin(115200); //iniciar comunicacion serial 
   Timer1.initialize(1000000);
@@ -64,6 +65,7 @@ UsartRx();
 void UsartRx() {
  if (Serial.available() > 0) {
  char dataexclude=(char)Serial.read();
+
  if (dataexclude == 10 || dataexclude == ','){}
  else{
  datar[pos]=dataexclude;
@@ -72,87 +74,45 @@ void UsartRx() {
  }
  
 
- if(pos==4) {
-  pos=0;
+ if(pos==4 || datnew==true) {
+  pos=0;datnew=false;
  if(orden==0){ // Se lee primer dato L1_der
    L1_der = atoi(&datar[0]);
-   orden++;
+   orden=1;
   }
   else if(orden==1){
-   DC1_der = atoi(&datar[0]);
+   L2_der = atoi(&datar[0]);
    orden=2;
   }
-  else if(orden==2){
-   L2_der = atoi(&datar[0]);
-   orden++;
+   else if(orden==2){
+   L1_izq = atoi(&datar[0]);
+   orden=3;
   }
   else if(orden==3){
-   DC2_der = atoi(&datar[0]);
-   orden++;
-  }  
-   else if(orden==4){
-   L1_izq = atoi(&datar[0]);
-   orden++;
-  }
-   else if(orden==5){
-   DC1_izq = atoi(&datar[0]);
-   orden++;
-  }
-  else if(orden==6){
    L2_izq = atoi(&datar[0]);
-   orden++;
-  }
-    else if(orden==7){
-   DC2_izq= atoi(&datar[0]);
    orden=0;
-   iteracion++;
-   // Promediar el Valor DC
- LDC[0]=(LDC[0] + DC1_der);
- LDC[1]=(LDC[1] + DC2_der);
- LDC[2]=(LDC[2] + DC1_izq);
- LDC[3]=(LDC[3] + DC2_izq); 
+  }
+    else if(orden==3){
+   L2_izq = atoi(&datar[0]);
+   orden=0;
   }
 }
 }
 
 void Envio() {
-    LDC[0]=LDC[0]/iteracion;
-    LDC[1]=LDC[1]/iteracion;
-    LDC[2]=LDC[2]/iteracion;
-    LDC[3]=LDC[3]/iteracion;
-    iteracion=1;
   //calculo AmpAC
   LAC[0]=maxi[0]-mini[0];  //AC valor longitud 1 parte derecha
   LAC[1]=maxi[1]-mini[1];  //AC valor longitud 1 parte derecha
   LAC[2]=maxi[2]-mini[2];  //AC valor longitud 1 parte izquierda
   LAC[3]=maxi[3]-mini[3];  //AC valor longitud 2 parte izquierda
-  // Calculo de "R"
-  float AD_L1_der= (500/3);
-  float AD_L2_der= (1011/98);
-  float R_der= (AD_L1_der/AD_L2_der);
-  
-  float AD_L1_izq = (LAC[2]/LDC[2]);
-  float AD_L2_izq = (LAC[3]/LDC[3]);
-  float R_izq  = (AD_L1_izq/AD_L2_izq);
-  
   //-------------__________  Enviar Datos ____________-----------------------------
-  Serial.print(" AC DC ");
-  for (int i=0;i < 4; i++){ // Resetear minimos y maximos
-  Serial.print(LAC[i]);
-  Serial.print(',');
-  Serial.print(LDC[i]);
-  Serial.print(',');
-  }
-    Serial.print(" R "); 
-    Serial.print(R_der);
+    Serial.print("AC ");
+    for (int i=0;i < 4; i++){ 
+    Serial.print(LAC[i]);
     Serial.print(',');
-    Serial.println(R_izq);
-  
- for (int i=0;i < 4; i++){ // Resetear AC y DC
- // LAC[i]=0;
- // LDC[i]=1;
-  }
-
+    }
+    Serial.println("");
+//Resetear para nuevo calculo
   }
   
 void cal_min_max(){
