@@ -1,6 +1,6 @@
 s=Ini_Serial();
 fscanf(s);
-for i=1:100%length(L1der)/2000
+for i=1:90%length(L1der)/2000
 for k=1:400
 index=k+(i-1)*400;
 data1 = prepare_data(L1der(index),L1derDC(index),L2der(index),L2derDC(index));
@@ -28,66 +28,68 @@ end
 %% 
 r_der=(ACL1.*DCL2)./(ACL2.*DCL1);
 r_izq=(ACL1iz.*DCL2iz)./(ACL2iz.*DCL1iz);
+t=2
+x=1:t:length(ACL1)*2;
 
 subplot(4,1,1);
-plot(ACL1)
+plot(x,ACL1)
 title('Valor amplitud AC Longitud 1 hemisferio derecho');
-xlim([2 100])
+xlim([2 length(ACL1)*t])
 
 subplot(4,1,2);
-plot(DCL1)
+plot(x,DCL1)
 title('Valor amplitud DC Longitud 1 hemisferio derecho');
 ylim([500 700])
-xlim([2 100])
+xlim([2 length(ACL1)*t])
 
 subplot(4,1,3);
-plot(ACL2)
+plot(x,ACL2)
 title('Valor amplitud AC Longitud 2 hemisferio derecho');
-xlim([2 100])
+xlim([2 length(ACL1)*t])
 
 subplot(4,1,4);
-plot(DCL2)
+plot(x,DCL2)
 title('Valor amplitud DC Longitud 2 hemisferio derecho');
 xlabel('Time (S)')
 ylim([500 700])
-xlim([2 100])
+xlim([2 length(ACL1)*t])
 
 
 figure(2)
 subplot(2,1,1);
-plot(r_der)
+plot(x,r_der)
 title('Valor de R hemisferio Derecho');
-xlim([2 100])
+xlim([2 length(ACL1)*t])
 
 subplot(2,1,2);
-plot(r_izq)
+plot(x,r_izq)
 title('Valor de R hemisferio Izquierdo');
-xlim([2 100])
+xlim([2 length(ACL1)*t])
 xlabel('Time (S)')
 
 figure(3)
 subplot(4,1,1);
-plot(ACL1iz)
+plot(x,ACL1iz)
 title('Valor amplitud AC Longitud 1 hemisferio Izquierdo');
-xlim([2 100])
+xlim([2 length(ACL1)*t])
 
 
 subplot(4,1,2);
- plot(DCL1iz)
+ plot(x,DCL1iz)
  title('Valor amplitud DC Longitud 1 hemisferio Izquierdo');
 ylim([100 700])
-xlim([2 100])
+xlim([2 length(ACL1)*t])
 
 subplot(4,1,3);
-plot(ACL1iz)
+plot(x,ACL1iz)
 title('Valor amplitud AC Longitud 2 hemisferio Izquierdo');
-xlabel([2 100])
+xlabel([2 length(ACL1)*t])
 
 subplot(4,1,4);
-plot(DCL2iz)
+plot(x,DCL2iz)
 title('Valor amplitud DC Longitud 2 hemisferio Izquierdo');
 ylim([500 700])
-xlim([2 100])
+xlim([2 length(ACL1)*t])
 xlabel('Time (s)')
 
 fclose(s);
