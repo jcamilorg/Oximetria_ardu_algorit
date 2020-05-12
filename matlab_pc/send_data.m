@@ -8,6 +8,8 @@ data2 = prepare_data(L1izq(index),L1izqDC(index),L2izq(index),L2izqDC(index));
 data= strcat(data1,data2);
 fprintf(s,data);
 end
+
+
 a = fscanf(s);
 
 recdata= strsplit(a,',');

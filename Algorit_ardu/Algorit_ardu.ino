@@ -1,3 +1,8 @@
+//Descargar la libreria timerOne antes de compilar Pasos:
+//1. ir a programa -> Incluir libreria -> administrar bibliotecas
+//2. buscar "TimerOne" dal cual esta entre comillas
+//3. Descaragar e instalar el segundo resultado de la busqueda 
+
 #include <TimerOne.h>
 
 // Variables para datos inmediato de valor de luz en logitudes de onda
